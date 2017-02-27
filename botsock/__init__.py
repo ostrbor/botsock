@@ -1,6 +1,4 @@
 # flake8: noqa
-try:
-    from .server import Server
-    from .client import send_command
-except Exception:
-    raise
+
+from .client import send_data
+from .server import Server

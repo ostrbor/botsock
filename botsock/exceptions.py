@@ -11,15 +11,6 @@ class BotSocketWrapperException(BotSocketBaseException):
         self.original_exception = original_exception
 
 
-class CommandHandlerNotFound(BotSocketBaseException):
-    pass
-
-
-class CommandExecutionException(BotSocketBaseException):
-    "Server catches it while trying command execution"
-    pass
-
-
 class KillServerException(SystemExit):
     "Raise it in command to stop server"
     pass
