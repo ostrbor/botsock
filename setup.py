@@ -7,6 +7,11 @@ def readme():
         return f.read()
 
 
+def requirements():
+    with open('requirements.txt') as req:
+        return req.read().splitlines()
+
+
 setup(
     name='botsock',
     version='0.0.1',
@@ -17,4 +22,5 @@ setup(
     author_email='ostrbor@gmail.com',
     keywords='bot botnet socket server',
     url='https://github.com/ostrbor/botsock',
-    packages=['botsock'], )
+    packages=['botsock'],
+    install_requires=requirements())
