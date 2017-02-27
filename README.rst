@@ -1,0 +1,6 @@
+botsock
+=========
+
+Secure socket server for bot communication.
+
+>>> pip install botsock
