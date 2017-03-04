@@ -1,6 +1,6 @@
 botsock
 =========
 
-Secure socket server for bot communication.
+Secure ssl socket server for bot communication.
 
 >>> pip install botsock
