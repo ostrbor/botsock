@@ -14,7 +14,7 @@ def requirements():
 
 setup(
     name='botsock',
-    version='0.0.1',
+    version='0.0.2',
     description='secure socket server for bot communication',
     long_description=readme(),
     author='Boris Ostretsov',
