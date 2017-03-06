@@ -17,7 +17,8 @@ def send_data(data,
     ssl_sock = ssl.wrap_socket(sock, certfile=certfile)
     request = pickle.dumps(data)
     ssl_sock.send(request)
-    msg = "Sent data(%s)" % (data.__class__.__name__)
+    data_info = get_data_info(data)
+    msg = "Sent data(%s)" % (data_info)
     logger.info(msg)
     response = recv_by_chunks(ssl_sock)
     data = pickle.loads(response) if response else 'None'
