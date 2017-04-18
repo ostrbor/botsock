@@ -12,7 +12,7 @@ class Server:
                  allowed_hosts=ALLOWED_HOSTS,
                  certfile='cert.pem',
                  logfile='logging.yml',
-                 callback=lambda: None):
+                 callback=lambda data: None):
         self.allowed_hosts = allowed_hosts
         self.certfile = certfile
         self.logger = get_logger(__name__, logfile)
@@ -50,14 +50,14 @@ class Server:
         request = recv_by_chunks(connection)
         received_data = pickle.loads(request)
         data_info = get_data_info(received_data)
-        msg = "Received data(%s). From IP %s" % (data_info, ip_address)
+        msg = "Received data: %s. Client IP: %s" % (data_info, ip_address)
         self.logger.info(msg)
         try:
             result = self.callback(received_data)
         except Exception as e:
             error = str(e)
-            send_by_chunks(connection, pickle.dumps(error))
-            msg = "Sent error [ %s ] in response of received data(%s)" % (
+            send_by_chunks(connection, pickle.dumps('Error on server' + error))
+            msg = "Sent error [ %s ] in response of received data %s" % (
                 error, data_info)
             self.logger.error(msg)
         else:
@@ -65,6 +65,5 @@ class Server:
                 result = 'None'
             response = pickle.dumps(result)
             send_by_chunks(connection, response)
-            data_info = get_data_info(result)
-            msg = "Sent data(%s)." % (data_info)
+            msg = "Sent data: %s" % result
             self.logger.info(msg)

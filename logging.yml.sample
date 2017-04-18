@@ -1,0 +1,35 @@
+---
+
+version: 1
+disable_existing_loggers: False
+formatters:
+  simple:
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    datefmt: "%Y-%m-%d %H:%M"
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: simple
+    stream: ext://sys.stdout
+    level: DEBUG
+  server:
+    class: logging.handlers.RotatingFileHandler
+    filename: "log/server.log"
+    maxBytes: 50000
+    backupCount: 2
+    formatter: simple
+    level: DEBUG
+  client:
+    class: logging.handlers.RotatingFileHandler
+    filename: "log/client.log"
+    maxBytes: 50000
+    backupCount: 2
+    formatter: simple
+    level: DEBUG
+loggers:
+  server:
+    handlers: [console, server]
+    level: DEBUG
+  client:
+    handlers: [console, client]
+    level: DEBUG

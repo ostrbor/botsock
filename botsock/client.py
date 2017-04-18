@@ -18,12 +18,11 @@ def send_data(data,
     request = pickle.dumps(data)
     ssl_sock.send(request)
     data_info = get_data_info(data)
-    msg = "Sent data(%s)" % (data_info)
+    msg = "Sent data: %s" % (data_info)
     logger.info(msg)
     response = recv_by_chunks(ssl_sock)
     data = pickle.loads(response) if response else 'None'
-    data_info = get_data_info(data)
-    msg = "Received data(%s)" % data_info
+    msg = "Received data: %s" % data
     logger.info(msg)
     sock.close()
     return data

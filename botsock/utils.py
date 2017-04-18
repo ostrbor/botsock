@@ -29,8 +29,9 @@ def get_logger(name, logfile):
 
 def get_data_info(data):
     # msg = "(type - %s, length - %s)"
-    msg = "(type - %s)"
-    data_type = data.__class__.__name__
+    # msg = "(type - %s)"
+    # data_type = data.__class__.__name__
     # data_length = len(data)
     # return msg % (data_type, data_length)
-    return msg % (data_type)
+    # return msg % (data_type)
+    return data.__class__.__name__
