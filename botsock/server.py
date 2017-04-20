@@ -1,6 +1,7 @@
 import pickle
 import socket
 import ssl
+import traceback
 from threading import Thread
 
 from .exceptions import BotSocketWrapperException
@@ -59,8 +60,9 @@ class Server:
         try:
             result = self.callback(received_data)
         except Exception as e:
-            error = str(e)
-            send_by_chunks(connection, pickle.dumps('Error on server' + error))
+            error = traceback.format_exc()
+            send_by_chunks(connection,
+                           pickle.dumps('Error on server: ' + error))
             msg = "Sent error [ %s ] in response of received data %s" % (
                 error, data_info)
             self.logger.error(msg)

@@ -10,4 +10,4 @@ CONNECTIONS_IN_QUEUE = 5
 # Amount of bytes to fetch from socket.
 # It depends on TCP protocol and can be lower
 # then asked but never bigger.
-CHUNK_SIZE = 1024
+CHUNK_SIZE = 4000
