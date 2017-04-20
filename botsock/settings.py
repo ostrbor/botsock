@@ -5,7 +5,7 @@ ALLOWED_HOSTS = ['*']  # '*' means all hosts are allowed
 
 # Number of additional connections in queue to
 # hold and switch after current connection is processed.
-CONNECTIONS_IN_QUEUE = 0
+CONNECTIONS_IN_QUEUE = 5
 
 # Amount of bytes to fetch from socket.
 # It depends on TCP protocol and can be lower

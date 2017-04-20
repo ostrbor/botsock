@@ -1,6 +1,7 @@
 import pickle
 import socket
 import ssl
+from threading import Thread
 
 from .exceptions import BotSocketWrapperException
 from .settings import ALLOWED_HOSTS, CONNECTIONS_IN_QUEUE, LISTEN_IP, PORT
@@ -19,7 +20,8 @@ class Server:
         self.callback = callback
 
     def serve_forever(self, listen_ip=LISTEN_IP, port=PORT):
-        bot_sock = socket.socket()
+        bot_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # REUSEADDR avoids port error when server is started multiple times
         bot_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         ssl_sock = ssl.wrap_socket(bot_sock, certfile=self.certfile)
         try:
@@ -39,12 +41,14 @@ class Server:
                 self.logger.exception(str(e))
                 continue
             if address[0] in self.allowed_hosts or '*' in self.allowed_hosts:
-                self._event_handler(connection, address[0])
+                Thread(
+                    target=self._event_handler,
+                    args=(connection, address[0]),
+                    daemon=True).start()
             else:
                 msg = 'Blocked IP %s\tServer has allowed IP set to %s' % (
                     address[0], self.allowed_hosts)
                 self.logger.warn(msg)
-            connection.close()
 
     def _event_handler(self, connection, ip_address):
         request = recv_by_chunks(connection)
@@ -67,3 +71,4 @@ class Server:
             send_by_chunks(connection, response)
             msg = "Sent data: %s" % result
             self.logger.info(msg)
+        connection.close()
